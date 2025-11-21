@@ -1,113 +1,88 @@
-# 🚀 Django Backend Setup (WSL Ubuntu)
+# 🚀 Django Backend Setup (WSL Ubuntu + Docker)
 
-This project uses **Django**, **Django REST Framework**, **SimpleJWT**, and **Pytest**.  
-Follow the steps below to set up and run the backend on **WSL Ubuntu**.
-
----
-
-## 🔧 1. Update System Packages
-
-```bash
-sudo apt update && sudo apt upgrade -y
-```
+This project uses **Django**, **Django REST Framework**, **SimpleJWT**, and **Pytest**,
+running entirely through **Docker Compose**.
 
 ---
 
-## 🐍 2. Install Python & Virtual Environment Tools
-
-WSL Ubuntu typically includes Python 3.x, but install the required tools just in case:
+## 🐳 1. Install Docker & Docker Compose
 
 ```bash
-sudo apt install -y python3 python3-venv python3-pip
+sudo apt update
+sudo apt install -y docker.io docker-compose
+sudo usermod -aG docker $USER
 ```
+
+Restart your WSL terminal after adding yourself to the `docker` group.
 
 ---
 
-## 🌱 3. Create and Activate a Virtual Environment
+## ▶️ 2. Start the Application
+From the project root (where docker-compose.yml is located):
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
+docker compose up --build
 ```
 
-To deactivate:
-
+The API will be available at:
 ```bash
-deactivate
+http://localhost:8000/admin/login/
 ```
 
 ---
 
-## 📦 4. Install Project Dependencies
+## 🧪 3. Run Tests Inside the Container
 
 ```bash
-pip install     django     djangorestframework     djangorestframework-simplejwt     pytest     pytest-django     PyJWT
+docker compose exec web pytest -v
 ```
 
 ---
 
-## 🏗️ 5. Initialize the Django Project
+## 👤 4. Create a Superuser (Inside Container)
 
 ```bash
-django-admin startproject core .
-```
-
-Run the development server to confirm everything is working:
-
-```bash
-python manage.py runserver
+docker compose exec web python manage.py createsuperuser
 ```
 
 ---
 
-## 🧪 6. Run Tests with Pytest
+## 🏗️ 5. Useful Django Commands (inside the container)
+
+Apply database migrations:
 
 ```bash
-pytest -v
+docker compose exec web python manage.py migrate
 ```
 
-If Pytest doesn’t detect Django settings, ensure `pytest.ini` includes:
-
-```ini
-[pytest]
-DJANGO_SETTINGS_MODULE = core.settings
+Open Django shell:
+```bash
+docker compose exec web python manage.py shell
 ```
 
 ---
 
-## 🔐 7. JWT Authentication (SimpleJWT)
-
-This project uses **SimpleJWT** for token-based authentication.  
-Install optional enhancements with:
+## 🐚 6. Access the Container Shell
 
 ```bash
-pip install PyJWT
+docker compose exec web bash
 ```
 
 ---
 
-## 🧹 8. Useful Django Commands
-
-Create a new application:
+## 🧼 7. Stop and Remove Containers
 
 ```bash
-python manage.py startapp accounts
-```
-
-Apply migrations:
-
-```bash
-python manage.py migrate
-```
-
-Create an admin user:
-
-```bash
-python manage.py createsuperuser
+docker compose down
 ```
 
 ---
 
-## ✔️ Finished!
+## 🔁 8. Rebuild Everything
 
-Your Django backend is now fully configured on **WSL Ubuntu** with REST, JWT auth, and test support.
+```bash
+docker compose down
+docker compose up --build
+```
+
+---
