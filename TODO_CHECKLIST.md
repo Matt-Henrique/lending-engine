@@ -1,9 +1,9 @@
 # 📅 Weekly Checklist
 
 ## ✅ Week 1–2: Backend Foundations
-- [ ] Review Python advanced concepts
-- [ ] Build Django REST API
-- [ ] Add authentication (JWT)
+- [x] Review Python advanced concepts
+- [x] Build Django REST API
+- [x] Add authentication (JWT)
 - [ ] Implement Celery + Redis
 - [ ] Optimize PostgreSQL queries
 
