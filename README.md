@@ -1,166 +1,113 @@
-# 📘 Study Plan for LendAPI - Software Engineer (Remote)
+# 🚀 Django Backend Setup (WSL Ubuntu)
 
-This study plan is tailored for the **Software Engineer role at LendAPI**, focusing on Python (Django), React, scalable systems, financial compliance, and cloud/DevOps.  
-It is structured into **4 sprints**, covering all essential skills required by the position.
-
----
-
-## 🏁 Overview
-
-**Total Duration:** 6–8 weeks  
-**Goal:** Master the technical, architectural, and compliance skills needed to work on a large-scale fintech platform capable of handling thousands of requests per second.
+This project uses **Django**, **Django REST Framework**, **SimpleJWT**, and **Pytest**.  
+Follow the steps below to set up and run the backend on **WSL Ubuntu**.
 
 ---
 
-# 🧭 Sprint 1 — Core Backend Foundations (Python, Django, Celery)
+## 🔧 1. Update System Packages
 
-### 🎯 Objectives
-- Strengthen backend fundamentals with Python and Django.
-- Understand Celery for background tasks.
-- Build high-performance REST APIs.
-- Begin working with PostgreSQL optimization.
-
-### 📚 Topics to Cover
-- Advanced Python (typing, async, design patterns)
-- Django architecture (CBV, ORM depth, DRF)
-- Celery + Redis for distributed tasks
-- PostgreSQL indexing, query plans, optimization
-- API authentication (JWT, OAuth2)
-
-### 🛠️ Practice
-- Build a Django REST API with authentication
-- Create Celery workers for async tasks
-- Implement rate limiting and caching
+```bash
+sudo apt update && sudo apt upgrade -y
+```
 
 ---
 
-# 🧭 Sprint 2 — Frontend (React) + System Architecture
+## 🐍 2. Install Python & Virtual Environment Tools
 
-### 🎯 Objectives
-- Build scalable React SPAs.
-- Understand modern system design for fintech-scale workloads.
-- Learn microservices architecture deeply.
+WSL Ubuntu typically includes Python 3.x, but install the required tools just in case:
 
-### 📚 Topics to Cover
-- React (hooks, context, state management, performance)
-- Clean Architecture, Hexagonal Architecture
-- Microservices: API gateways, service communication, scaling
-- REST best practices
-- Nginx, caching layers (Redis), load balancing
-
-### 🛠️ Practice
-- Build a React SPA that consumes your Django API
-- Implement a microservices mock architecture locally (Docker)
-- Add logging, metrics, and tracing (OpenTelemetry basics)
+```bash
+sudo apt install -y python3 python3-venv python3-pip
+```
 
 ---
 
-# 🧭 Sprint 3 — Cloud, DevOps & Security (AWS, Docker, Terraform)
+## 🌱 3. Create and Activate a Virtual Environment
 
-### 🎯 Objectives
-- Learn cloud fundamentals and infrastructure provisioning.
-- Build distributed systems ready for high throughput.
-- Understand fintech-grade security and compliance.
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
-### 📚 Topics to Cover
-- AWS (ECS, EC2, RDS, SQS, Lambda, IAM)
-- Docker & container orchestration
-- Terraform infrastructure as code
-- CI/CD pipelines (GitHub Actions or GitLab CI)
-- VPC design, networking, subnets, gateways
-- Secrets management (AWS Secrets Manager, Vault)
+To deactivate:
 
-### 🔐 Compliance & Security
-- PCI-DSS basics
-- SOC 2 principles
-- GDPR technical requirements
-- Logging, auditing, encryption at rest and in transit
-
-### 🛠️ Practice
-- Deploy a Django + React app on AWS using Docker
-- Create Terraform scripts for provisioning:
-  - VPC
-  - RDS
-  - ECS cluster
-- Build a CI/CD pipeline with automatic testing and deployment
+```bash
+deactivate
+```
 
 ---
 
-# 🧭 Sprint 4 — High Scalability & Fintech Specialization
+## 📦 4. Install Project Dependencies
 
-### 🎯 Objectives
-- Learn how to scale systems to **3000+ RPS**.
-- Handle large datasets (billions of rows).
-- Explore fintech-grade reliability and performance patterns.
-- Gain experience with data engineering and AI/ML insights (optional bonus).
-
-### 📚 Topics to Cover
-- Horizontal scaling, sharding, replication
-- PostgreSQL partitioning, query optimization at scale
-- Distributed tracing
-- Event-driven architecture (Kafka, RabbitMQ)
-- CQRS, event sourcing (optional advanced topic)
-- ML & analytics fundamentals (bonus for the role)
-
-### 🛠️ Practice
-- Optimize your API to handle high load (load testing with Locust/K6)
-- Partition large tables in PostgreSQL
-- Simulate financial transactions with event-driven processing
+```bash
+pip install     django     djangorestframework     djangorestframework-simplejwt     pytest     pytest-django     PyJWT
+```
 
 ---
 
-# 🧩 Weekly Schedule Summary
+## 🏗️ 5. Initialize the Django Project
 
-### **Week 1–2**
-✔ Python, Django, DRF  
-✔ PostgreSQL optimization  
-✔ Celery tasks  
+```bash
+django-admin startproject core .
+```
 
-### **Week 3–4**
-✔ React advanced topics  
-✔ Microservices  
-✔ API gateway patterns  
+Run the development server to confirm everything is working:
 
-### **Week 5–6**
-✔ AWS, Docker, Terraform  
-✔ CI/CD pipelines  
-✔ Security & compliance  
-
-### **Week 7–8**
-✔ High scalability architecture  
-✔ Load testing  
-✔ Event-driven & data-heavy systems  
+```bash
+python manage.py runserver
+```
 
 ---
 
-# 📦 Deliverables for Portfolio
+## 🧪 6. Run Tests with Pytest
 
-By the end of the plan, you will have:
+```bash
+pytest -v
+```
 
-- **A full-stack fintech-style platform** with Django + React  
-- **Background processing with Celery**  
-- **Infrastructure in AWS using Terraform**  
-- **CI/CD pipeline**  
-- **Scalability test results**  
-- **Security and compliance documentation**  
+If Pytest doesn’t detect Django settings, ensure `pytest.ini` includes:
 
-This can be showcased in interviews and on GitHub.
-
----
-
-# 🚀 Final Tips for the Interview
-
-- Emphasize ownership: architecture + mentoring + DevOps.
-- Mention experience with scalable systems (prepare examples).
-- Speak about security and compliance even if it’s new—show awareness.
-- Prepare STAR-format stories for leadership scenarios.
+```ini
+[pytest]
+DJANGO_SETTINGS_MODULE = core.settings
+```
 
 ---
 
-If you want, I can also create:
+## 🔐 7. JWT Authentication (SimpleJWT)
 
-✅ A version tailored to your resume  
-✅ A weekly checklist in markdown  
-✅ A GitHub repository structure for your study project  
+This project uses **SimpleJWT** for token-based authentication.  
+Install optional enhancements with:
 
-Just tell me what you prefer!
+```bash
+pip install PyJWT
+```
+
+---
+
+## 🧹 8. Useful Django Commands
+
+Create a new application:
+
+```bash
+python manage.py startapp accounts
+```
+
+Apply migrations:
+
+```bash
+python manage.py migrate
+```
+
+Create an admin user:
+
+```bash
+python manage.py createsuperuser
+```
+
+---
+
+## ✔️ Finished!
+
+Your Django backend is now fully configured on **WSL Ubuntu** with REST, JWT auth, and test support.
